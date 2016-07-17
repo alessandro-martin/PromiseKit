@@ -30,8 +30,8 @@ class UITest_UIImagePickerController_Swift: PMKiOSUITestCase {
         let app = XCUIApplication()
         let tablesQuery = app.tables
         tablesQuery.staticTexts["3"].tap()
-        tablesQuery.childrenMatchingType(.Cell).element(boundBy: 0).tap()
-        app.collectionViews.childrenMatchingType(.Cell).matching(NSPredicate(format: "SELF.label BEGINSWITH %@", argumentArray: ["Photo, Landscape, August 08, 2012"])).element(boundBy: 0).tap()
+        tablesQuery.children(matching: .cell).element(boundBy: 0).tap()
+        app.collectionViews.children(matching: .cell).matching(Predicate(format: "SELF.label BEGINSWITH %@", argumentArray: ["Photo, Landscape, August 08, 2012"])).element(boundBy: 0).tap()
 
         XCTAssertTrue(value)
     }
@@ -41,7 +41,7 @@ class UITest_UIImagePickerController_Swift: PMKiOSUITestCase {
         let tablesQuery = app.tables
         tablesQuery.staticTexts["4"].tap()
         tablesQuery.buttons["Moments"].tap()
-        app.collectionViews.childrenMatchingType(.Cell).matching(NSPredicate(format: "SELF.label BEGINSWITH %@", argumentArray: ["Photo, Landscape, August 08, 2012"])).element(boundBy: 0).tap()
+        app.collectionViews.children(matching: .cell).matching(Predicate(format: "SELF.label BEGINSWITH %@", argumentArray: ["Photo, Landscape, August 08, 2012"])).element(boundBy: 0).tap()
 
         XCTAssertTrue(value)
     }

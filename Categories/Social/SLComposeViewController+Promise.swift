@@ -15,11 +15,11 @@ import PromiseKit
     import PromiseKit
 */
 extension UIViewController {
-    public func promiseViewController(vc: SLComposeViewController, animated: Bool = true, completion: (() -> Void)? = nil) -> Promise<Void> {
-        presentViewController(vc, animated: animated, completion: completion)
+    public func promiseViewController(_ vc: SLComposeViewController, animated: Bool = true, completion: (() -> Void)? = nil) -> Promise<Void> {
+        present(vc, animated: animated, completion: completion)
         return Promise { fulfill, reject in
             vc.completionHandler = { result in
-                if result == .Cancelled {
+                if result == .cancelled {
                     reject(SLComposeViewController.Error.Cancelled)
                 } else {
                     fulfill()

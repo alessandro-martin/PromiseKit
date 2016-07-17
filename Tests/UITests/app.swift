@@ -5,12 +5,12 @@ import UIKit
 @UIApplicationMain
 class App: UITableViewController, UIApplicationDelegate {
 
-    var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
+    var window: UIWindow? = UIWindow(frame: UIScreen.main().bounds)
     let testSuceededSwitch = UISwitch()
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         window!.rootViewController = self
-        window!.backgroundColor = UIColor.purpleColor()
+        window!.backgroundColor = .purple()
         window!.makeKeyAndVisible()
         return true
     }
@@ -19,67 +19,67 @@ class App: UITableViewController, UIApplicationDelegate {
         view.addSubview(testSuceededSwitch)
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Row.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         cell.textLabel?.text = Row(indexPath)?.description
         return cell
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch Row(indexPath)! {
-        case .ImagePickerCancel:
+        case .imagePickerCancel:
             let p: Promise<UIImage> = promiseViewController(UIImagePickerController())
-            p.error(policy: .AllErrors) { error in
+            p.error(policy: .allErrors) { error in
                 guard (error as! CancellableErrorType).cancelled else { abort() }
-                self.testSuceededSwitch.on = true
+                self.testSuceededSwitch.isOn = true
             }
             p.error { error in
                 abort()
             }
-        case .ImagePickerEditImage:
+        case .imagePickerEditImage:
             let picker = UIImagePickerController()
             picker.allowsEditing = true
             promiseViewController(picker).then { (img: UIImage) in
-                self.testSuceededSwitch.on = true
+                self.testSuceededSwitch.isOn = true
             }
-        case .ImagePickerPickImage:
+        case .imagePickerPickImage:
             promiseViewController(UIImagePickerController()).then { (image: UIImage) in
-                self.testSuceededSwitch.on = true
+                self.testSuceededSwitch.isOn = true
             }
-        case .ImagePickerPickData:
-            promiseViewController(UIImagePickerController()).then { (data: NSData) in
-                self.testSuceededSwitch.on = true
+        case .imagePickerPickData:
+            promiseViewController(UIImagePickerController()).then { (data: Data) in
+                self.testSuceededSwitch.isOn = true
             }
-        case .SocialComposeCancel:
+        case .socialComposeCancel:
             let composer = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            promiseViewController(composer).error(policy: .AllErrors) { error in
+            promiseViewController(composer!).error(policy: .allErrors) { error in
                 guard (error as! CancellableErrorType).cancelled else { abort() }
-                self.testSuceededSwitch.on = true
+                self.testSuceededSwitch.isOn = true
             }
         }
     }
 }
 
 enum Row: Int {
-    case ImagePickerCancel
-    case ImagePickerEditImage
-    case ImagePickerPickImage
-    case ImagePickerPickData
-    case SocialComposeCancel
+    case imagePickerCancel
+    case imagePickerEditImage
+    case imagePickerPickImage
+    case imagePickerPickData
+    case socialComposeCancel
 
-    init?(_ indexPath: NSIndexPath) {
-        guard let row = Row(rawValue: indexPath.row) else {
+    init?(_ indexPath: IndexPath) {
+        guard let row = Row(rawValue: (indexPath as NSIndexPath).row) else {
             return nil
         }
         self = row
     }
 
-    var indexPath: NSIndexPath {
-        return NSIndexPath(forRow: rawValue, inSection: 0)
+    var indexPath: IndexPath {
+        return IndexPath(row: rawValue, section: 0)
     }
 
     var description: String {

@@ -4,19 +4,19 @@ import XCTest
 
 class Test_NSNotificationCenter_Swift: XCTestCase {
     func test() {
-        let ex = expectationWithDescription("")
+        let ex = expectation(withDescription: "")
         let userInfo: [NSObject: AnyObject] = ["a": 1]
 
-        NSNotificationCenter.once(PMKTestNotification).then { d -> Void in
+        NotificationCenter.once(PMKTestNotification).then { d -> Void in
             let a = userInfo as NSDictionary
             let b = d as NSDictionary
             XCTAssertTrue(a.isEqual(b))
             ex.fulfill()
         }
 
-        NSNotificationCenter.defaultCenter().postNotificationName(PMKTestNotification, object: nil, userInfo: userInfo)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: PMKTestNotification), object: nil, userInfo: userInfo)
 
-        waitForExpectationsWithTimeout(1, handler: nil)
+        waitForExpectations(withTimeout: 1, handler: nil)
     }
 }
 

@@ -48,7 +48,7 @@ private class PMKAlertViewDelegate: NSObject, UIAlertViewDelegate {
     let (promise, fulfill, reject) = Promise<Int>.pendingPromise()
     var retainCycle: NSObject?
 
-    @objc func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+    @objc func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if buttonIndex != alertView.cancelButtonIndex {
             fulfill(buttonIndex)
         } else {
