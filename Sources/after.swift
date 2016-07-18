@@ -13,8 +13,6 @@ import Foundation.NSDate
 */
 public func after(_ delay: TimeInterval) -> Promise<Void> {
     return Promise { fulfill, _ in
-        let delta = delay * TimeInterval(NSEC_PER_SEC)
-        let when = DispatchTime.now() + Double(Int64(delta)) / Double(NSEC_PER_SEC)
-        DispatchQueue.global(attributes: DispatchQueue.GlobalAttributes(rawValue: UInt64(0))).after(when: when, execute: fulfill)
+        DispatchQueue.global(attributes: DispatchQueue.GlobalAttributes(rawValue: UInt64(0))).after(when: .now() + delay, execute: fulfill)
     }
 }

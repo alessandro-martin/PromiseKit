@@ -43,15 +43,15 @@ class App: UITableViewController, UIApplicationDelegate {
         case .imagePickerEditImage:
             let picker = UIImagePickerController()
             picker.allowsEditing = true
-            promiseViewController(picker).then { (img: UIImage) in
+            _ = promiseViewController(picker).then { (img: UIImage) in
                 self.testSuceededSwitch.isOn = true
             }
         case .imagePickerPickImage:
-            promiseViewController(UIImagePickerController()).then { (image: UIImage) in
+            _ = promiseViewController(UIImagePickerController()).then { (image: UIImage) in
                 self.testSuceededSwitch.isOn = true
             }
         case .imagePickerPickData:
-            promiseViewController(UIImagePickerController()).then { (data: Data) in
+            _ = promiseViewController(UIImagePickerController()).then { (data: Data) in
                 self.testSuceededSwitch.isOn = true
             }
         case .socialComposeCancel:
